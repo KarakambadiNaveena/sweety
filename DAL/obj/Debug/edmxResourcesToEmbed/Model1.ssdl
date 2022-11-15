@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ImyTravelAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Admins">
+    <Key>
+      <PropertyRef Name="AdminId" />
+    </Key>
+    <Property Name="AdminId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AdminEmail" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AdminPassword" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RememberMe" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Comments">
+    <Key>
+      <PropertyRef Name="CommentId" />
+    </Key>
+    <Property Name="CommentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CommentText" Type="nvarchar(max)" />
+    <Property Name="rating" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PlacesToVisits">
+    <Key>
+      <PropertyRef Name="PlaceId" />
+    </Key>
+    <Property Name="PlaceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PlaceName" Type="nvarchar(max)" />
+    <Property Name="ModeOfTransport" Type="nvarchar(max)" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="Location" Type="char" MaxLength="10" />
+    <Property Name="PlaceImage" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="SuggestedHotels">
+    <Key>
+      <PropertyRef Name="HotelId" />
+    </Key>
+    <Property Name="HotelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="HotelName" Type="nvarchar(max)" />
+    <Property Name="Hotellocation" Type="nvarchar(max)" />
+    <Property Name="ContactNo" Type="nvarchar(max)" />
+    <Property Name="rating" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TravelDetails">
+    <Key>
+      <PropertyRef Name="TravelId" />
+    </Key>
+    <Property Name="TravelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Location" Type="nvarchar(max)" />
+    <Property Name="CostOfTravel" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="60" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="60" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ConfirmPassword" Type="nvarchar(max)" />
+    <Property Name="RememberMe" Type="bit" Nullable="false" />
+    <Property Name="Mobile" Type="nchar" MaxLength="10" />
+    <Property Name="Photo" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_dbo_TravelDetails_dbo_Users_UserId">
+    <End Role="Users" Type="Self.Users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="TravelDetails" Type="Self.TravelDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="TravelDetails">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_prodfk">
+    <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+    <End Role="PlacesToVisits" Type="Self.PlacesToVisits" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="PlacesToVisits">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ImyTravelAppModelStoreContainer">
+    <EntitySet Name="Admins" EntityType="Self.Admins" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Comments" EntityType="Self.Comments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PlacesToVisits" EntityType="Self.PlacesToVisits" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SuggestedHotels" EntityType="Self.SuggestedHotels" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TravelDetails" EntityType="Self.TravelDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_dbo_TravelDetails_dbo_Users_UserId" Association="Self.FK_dbo_TravelDetails_dbo_Users_UserId">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="TravelDetails" EntitySet="TravelDetails" />
+    </AssociationSet>
+    <AssociationSet Name="fk_prodfk" Association="Self.fk_prodfk">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="PlacesToVisits" EntitySet="PlacesToVisits" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
